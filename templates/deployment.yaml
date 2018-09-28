@@ -1,0 +1,24 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Values.mysql.name }}
+  labels:
+    app: {{ .Values.mysql.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.mysql.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.mysql.name }}
+    spec:
+      containers:
+      - name: {{ .Values.mysql.name }}
+        image: {{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}
+        imagePullPolicy: {{ .Values.mysql.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.mysql.containerPort }}
+      imagePullSecrets:
+      - name: {{ .Values.mysql.image.imagePullSecrets }}
